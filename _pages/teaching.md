@@ -7,6 +7,8 @@ nav: true
 nav_order: 5
 ---
 
-For now, this page is assumed to be a static description of your courses. You can convert it to a collection similar to `_projects/` so that you can have a dedicated page for each course.
+## UCL
 
-Organize your courses by years, topics, or universities, however you like!
+2022-23 Term 1 - COMP0188, Deep Representations and Learning
+
+2022-23 Term 1 - COMP0233, Research Software Engineering in Python
