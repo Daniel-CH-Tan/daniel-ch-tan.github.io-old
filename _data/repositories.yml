@@ -1,12 +1,8 @@
 github_users:
-  - torvalds
-  - alshedivat
+  - dtch1997
 
 github_repos:
-  - alshedivat/al-folio
-  - twbs/bootstrap
-  - jekyll/jekyll
-  - jquery/jquery
-  - FortAwesome/Font-Awesome
-  - jpswalsh/academicons
-  - mathjax/MathJax
+  - dtch1997/attention-learn-to-route
+  - dtch1997/virufy-tm-cough-app
+  - dtch1997/cpg-locomotion
+  - dtch1997/neural-car
