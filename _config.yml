@@ -111,9 +111,10 @@ bing_site_verification:  # out your bing-site-verification ID (Bing Webmaster)
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: al-folio # blog_name will be displayed in your blog page
+blog_name: Dan's Diary # blog_name will be displayed in your blog page
 blog_nav_title: blog # your blog must have a title for it to be displayed in the nav bar
-blog_description: a simple whitespace theme for academics
+short_blog_description: research and life logbook
+long_blog_description: Welcome to my blog! I believe that in science, the process is equally as important as the end result (perhaps even more so!). Therefore, I'm resolving to make my scientific process more visible and transparent, both to myself and to others. I'll aim to publish posts semi-regularly about the current state of my research - progress, challenges, plans. I'll also occasionally make posts on especially useful knowledge tidbits or principles that I want to commit to long-term memory. Lastly, I'll sometimes post things about my life in general.
 permalink: /blog/:year/:title/
 
 # Pagination
@@ -223,7 +224,8 @@ jekyll-archives:
     tag: '/blog/tag/:name/'
     category: '/blog/category/:name/'
 
-display_tags: ['formatting', 'images', 'links', 'math', 'code'] # this tags will be dispalyed on the front page of your blog
+display_tags: []
+# ['formatting', 'images', 'links', 'math', 'code'] # this tags will be dispalyed on the front page of your blog
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
