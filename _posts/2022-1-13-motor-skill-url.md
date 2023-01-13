@@ -1,6 +1,6 @@
 ---
 layout: distill
-title: a distill-style blog post
+title: Motor Skill Discovery with Unsupervised RL
 description: an example of a distill-style blog post and main elements
 date: 2021-05-22
 
