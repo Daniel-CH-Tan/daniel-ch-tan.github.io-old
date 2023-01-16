@@ -24,6 +24,10 @@ toc:
     - name: Representation Learning
     - name: Options Theory
   - name: Learning Skills
+    subsections:
+    - name: Domain Knowledge
+    - name: Expert Data
+    - name: Unsupervised Discovery
   - name: Using Skills
     subsections:
     - name: Hierarchical Learning
@@ -82,11 +86,11 @@ How do we obtain high-quality skills? To do that we must first define our notion
 
 For a given control task and action space, domain knowledge may give us clues about how to design families of high-quality skills. For example, in legged locomotion, classical control methods have done well by using gait-parameterized actuation as a family of skills. Similarly, generalized hybrid-zero dynamics has been an effective heuristic for designing skills for bipedal locomotion. 
 
-### Data-Driven
+### Expert Data
 
 Another way to obtain a family of high-quality skills, is by imitating an expert that already possesses those skills. For the task of simulated locomotion, ASE <d-cite key="peng2022ase"></d-cite> and its predecessors used motion-capture data from known quadrupedal and bipedal experts (i.e. animals and humans). 
 
-### Self-Supervised Discovery
+### Unsupervised Discovery
 
 Lastly, we can aim to discover skills simply from pure exploration. However, in the absence of extrinsic inductive biases, skill discovery requires intrinsic priors on high-quality skills, e.g diversity and consistency of the skill set <d-cite key="sharma2019dynamics"></d-cite>. By optimizing these intrinsic metrics, we hope that skills emerge autonomously from the learning process. 
 
