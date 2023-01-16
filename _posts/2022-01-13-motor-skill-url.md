@@ -1,7 +1,7 @@
 ---
 layout: distill
-title: Skill Discovery with Unsupervised RL
-description: Learning general and re-usable skills for continuous-control tasks in robotics
+title: Skill Learning
+description: Thoughts on learning general and re-usable skills for continuous-control tasks in robotics
 date: 2022-01-13
 
 authors:
@@ -76,7 +76,22 @@ In the original formulation, each option exists as a separate policy. In practic
 
 ## Learning Skills
 
-Under construction
+How do we obtain high-quality skills? To do that we must first define our notion of 'quality'. 
+
+### Domain Knowledge
+
+For a given control task and action space, domain knowledge may give us clues about how to design families of high-quality skills. For example, in legged locomotion, classical control methods have done well by using gait-parameterized actuation as a family of skills. Similarly, generalized hybrid-zero dynamics has been an effective heuristic for designing skills for bipedal locomotion. 
+
+### Data-Driven
+
+Another way to obtain a family of high-quality skills, is by imitating an expert that already possesses those skills. For the task of simulated locomotion, ASE <d-cite key="peng2022ase"></d-cite> and its predecessors used motion-capture data from known quadrupedal and bipedal experts (i.e. animals and humans). 
+
+### Self-Supervised Discovery
+
+Lastly, we can aim to discover skills simply from pure exploration. However, in the absence of extrinsic inductive biases, skill discovery requires intrinsic priors on high-quality skills, e.g diversity and consistency of the skill set <d-cite key="sharma2019dynamics"></d-cite>. By optimizing these intrinsic metrics, we hope that skills emerge autonomously from the learning process. 
+
+Compared to the previous approaches, there is no guarantee of quality of individual skills in the learned set. However, by maximizing diversity, we can hope that the learned skill set contains sufficient high-quality skills that transfer well to downstream tasks. 
+
 
 ## Using Skills
 
