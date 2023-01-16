@@ -1,6 +1,6 @@
 ---
 layout: distill
-title: Motor Skill Discovery with Unsupervised RL
+title: Skill Discovery with Unsupervised RL
 description: Learning general and re-usable skills for continuous-control tasks in robotics
 date: 2022-01-13
 
@@ -20,6 +20,14 @@ bibliography: 2022-01-13-motor-skill-url.bib
 #     jekyll-toc plugin (https://github.com/toshimaru/jekyll-toc).
 toc:
   - name: Introduction
+    subsections:
+    - name: Representation Learning
+    - name: Options Theory
+  - name: Learning Skills
+  - name: Using Skills
+    subsections:
+    - name: Hierarchical Learning
+    - name: Teacher-Student Learning
     # if a section has subsections, you can add them as follows:
     # subsections:
     #   - name: Example Child Subsection 1
@@ -52,33 +60,41 @@ _styles: >
 
 ## Introduction
 
-In this blog post, I'll talk about my work so far on applying unsupervised RL methods to learning general and re-usable motor skills for robotic tasks. For now, I'm focusing mainly on locomotion tasks. 
+As humans, we have learned certain patterns of whole-body actuation as high-level "skills" (walking, running, jumping, etc.) In planning our bodily actions, we do not consciously control each and every actuator (muscle) in our body. Rather,we largely constrain ourselves to these general and re-usable patterns, adapting and composing them on the fly to fit the situation. 
 
-### The need for diverse skills
+Why not do the same for robots? 
 
-Animals and humans exhibit a wide variety of agile and robust motor skills which they employ in a task-oriented way to successfully navigate their environment. For example, when a natural agent needs to traverse a large ditch, it must be able to select the appropriate motor skill, such as building up speed and jumping across if the gap is small enough, or climbing down and back up the other side otherwise. 
+### Representation Learning
 
-Put another way, every environment has a corresponding 'minimal skill set' that is required to fully traverse it. Simple environments, like flat and uniform ground in simulation, require only very simple skills; correspondingly, the complexity of the terrain and obstacles encountered in the real world is what requires natural agents to learn and use complex motor skills. 
+One timeless lesson from deep learning is that, in dealing with high-dimensional spaces, it is often useful to first compress it to a succint low-dimensional latent representation that can be used for downstream tasks. In recent times, there has been considerable interest in applying this technique to deal with high-dimensional observation spaces - for example, in robotic manipulation from camera feeds. Skill learning can be thought of as representation learning applied to action spaces. 
 
-In this sense, useful skills are necessarily defined by the environment; the required skillset for agents to navigate a forest may be very different from the required skillset in an urban setting. Nevertheless, we can aim to learn a superset of skills that will contain the appropriate minimal skillset for a variety of target environments. 
+### Options Theory
 
-### Reinforcement learning
+One useful mathematical formulation for skill learning is the options framework introduced in <d-cite key="sutton1999options"></d-cite>. For a given Markov Decision Process (MDP), options are auxilliary policies that conditionally execute upon entering certain states and run until their termination condition is met. 
 
-Reinforcement learning has been shown to be a powerful framework for solving difficult sequential decision problems. For example, AlphaGo, AlphaFold. 
+In the original formulation, each option exists as a separate policy. In practice, it has been popular <d-cite key="sharma2019dynamics"></d-cite> <d-cite key="Peng_2021"></d-cite> to implement skill learning using a latent-conditioned policy. Each instantiation of the latent variable corresponds to a single option, and the choice of distribution over the latents induces a family of options. Assuming sufficient regularity of the latent space, the latent-variable representations can be interpolated to sample novel skills. 
 
-One approach to enabling simulated agents to learn these motor skills, is to replicate the complexity of the real-world environment in simulation. This is the approach taken in <d-cite key="rudin2021walk"></d-cite>. A complex simulated environment with diverse terrain is set up, and a policy implicitly learns all the skills necessary to navigate such an environment. 
+## Learning Skills
 
-### Controllable skills
+Under construction
 
-In the previous framework, skills are implicitly learned by the policy and used only in the appropriate scenarios. In other words, the choice of which skill to use depends only on the instantaneous perceptual input; it is purely a reactive decision process, without conscious planning.
+## Using Skills
 
-However, we can also think of skills existing separately from their particular use cases; for example, a dog that can jump across a large gap, can execute the same jump on flat ground. This motivates the use of additional **conditioning variables** for specifying which skill should be executed. Various works have introduced such conditioning variables; <d-cite key="Peng_2021"></d-cite> uses reference motion frames as conditioning variables, whereas <d-cite key="sharma2019dynamics"></d-cite> uses an abstract latent variable as the conditioning variable.  
+Okay, so suppose that we have a collection of high-quality skills. How do we use them? 
 
-### Transfer Learning
+### Hierarchical Learning
 
-Another benefit of a skills-based framework is that it enables transfer learning. By first learning a diverse set of low-level skills, these low-level skills can be composed together as building blocks for more difficult problems. 
+A suitable collection of skills (or options) can be used as action primitives for downstream control tasks. For example, a family of options can be treated as a low-level controller. A high-level planner can then use the option space as its action space, selecting and sequencing options to solve specific tasks. 
 
-### Conclusion
+Doing this has several benefits. First and foremost, it enables transfer learning. The high-level policy does not need to learn skills from scratch, but can simply make use of them. Exploration in a highly informative, low-dimensional latent space is likely to be much easierr than exploration in a high-dimensional, noisy space. Similar to how pre-training on ImageNet, starting with a high-quality family of options can greatly improve sample efficiency on downstream tasks. 
+
+### Teacher-Student Learning
+
+Another perspective is to simply treat the learned skills as 'teachers' that generate off-policy state-action-reward histories, which are made available to student policies. This could be used by off-policy RL algorithms or even by imitation learning methods. 
+
+Compared to the hierarchical approach, this has the benefit of fewer architectural constraints on the final policy. In turn, it likely trades off some of the gains in sample efficiency from directly re-using learned skills as action primitives. 
+
+## Conclusion
 
 In this blog post, I discussed the motivating factors and benefits/disadvantages of the skills framework vis-a-vis reinforcement learning. I also reviewed some of the current literature in this field. 
 
