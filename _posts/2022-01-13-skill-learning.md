@@ -20,18 +20,9 @@ bibliography: 2022-01-13-motor-skill-url.bib
 #     jekyll-toc plugin (https://github.com/toshimaru/jekyll-toc).
 toc:
   - name: Introduction
-    subsections:
-    - name: Representation Learning
-    - name: Options Theory
+  - name: Related Work
   - name: Learning Skills
-    subsections:
-    - name: Domain Knowledge
-    - name: Expert Data
-    - name: Unsupervised Discovery
   - name: Using Skills
-    subsections:
-    - name: Hierarchical Learning
-    - name: Teacher-Student Learning
     # if a section has subsections, you can add them as follows:
     # subsections:
     #   - name: Example Child Subsection 1
@@ -64,9 +55,9 @@ _styles: >
 
 ## Introduction
 
-As humans, we have learned certain patterns of whole-body actuation as high-level "skills" (walking, running, jumping, etc.) In planning our bodily actions, we do not consciously control each and every actuator (muscle) in our body. Rather,we largely constrain ourselves to these general and re-usable patterns, adapting and composing them on the fly to fit the situation. 
+As humans, we have learned certain patterns of whole-body actuation as high-level "skills" (walking, running, jumping, etc.) In planning our bodily actions, we do not consciously control each and every actuator (muscle) in our body. Rather,we largely constrain ourselves to these general and re-usable patterns, adapting and composing them on the fly to fit the situation. Why not do the same for robots? 
 
-Why not do the same for robots? 
+In this blog post, I will describe approaches for skill learning in control problems, i.e. to **discover** and **learn** a **diverse** and **high-quality** set of **action primitives** that **transfer well** to downstream tasks. 
 
 ### The Cereal-Making Robot
 
