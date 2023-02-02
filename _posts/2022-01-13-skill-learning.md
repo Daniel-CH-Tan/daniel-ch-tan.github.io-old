@@ -57,7 +57,9 @@ _styles: >
 
 As humans, we have learned certain patterns of whole-body actuation as high-level "skills" (walking, running, jumping, etc.) In planning our bodily actions, we do not consciously control each and every actuator (muscle) in our body. Rather,we largely constrain ourselves to these general and re-usable patterns, adapting and composing them on the fly to fit the situation. Why not do the same for robots? 
 
-In this blog post, I will describe approaches for skill learning in control problems, i.e. to **discover** and **learn** a **diverse** and **high-quality** set of **action primitives** that **transfer well** to downstream tasks. 
+In this blog post, I will describe the motivations and approaches for skill learning in control problems, i.e. to **learn** and **discover** a **diverse** and **high-quality** set of **action primitives** that **transfer well** to downstream tasks. 
+
+## Motivation
 
 ### The Cereal-Making Robot
 
@@ -109,32 +111,30 @@ A similar line of reasoning is employed in **subgoal**-conditioned learning and 
 
 ## Learning Skills
 
-How do we obtain high-quality skills? To do that we must first define our notion of 'quality'. 
+Learning a skill refers to learning how to execute the skill, given that we already know what it is. Depending on choice of representation, this may be very easy; for example, if we have a skill represented as a state-action trajectory, then simple behaviour cloning would enable the skill to be learned. For the task of simulated locomotion, ASE <d-cite key="peng2022ase"></d-cite> and its predecessors used motion-capture data from known quadrupedal and bipedal experts (i.e. animals and humans). 
 
-### Domain Knowledge
+For a given control task and action space, domain knowledge may also give us clues about how to design families of high-quality skills. For example, in legged locomotion, classical control methods have done well by using gait-parameterized actuation as a family of skills. Similarly, generalized hybrid-zero dynamics has been an effective heuristic for designing skills for bipedal locomotion. 
 
-For a given control task and action space, domain knowledge may give us clues about how to design families of high-quality skills. For example, in legged locomotion, classical control methods have done well by using gait-parameterized actuation as a family of skills. Similarly, generalized hybrid-zero dynamics has been an effective heuristic for designing skills for bipedal locomotion. 
+However, in practice, such data and domain knowledge may not be readily available, which leads us to...
 
-### Expert Data
+## Discovering Skills
 
-Another way to obtain a family of high-quality skills, is by imitating an expert that already possesses those skills. For the task of simulated locomotion, ASE <d-cite key="peng2022ase"></d-cite> and its predecessors used motion-capture data from known quadrupedal and bipedal experts (i.e. animals and humans). 
-
-### Unsupervised Discovery
-
-Lastly, we can aim to discover skills simply from pure exploration. However, in the absence of extrinsic inductive biases, skill discovery requires intrinsic priors on high-quality skills, e.g diversity and consistency of the skill set <d-cite key="sharma2019dynamics"></d-cite>. By optimizing these intrinsic metrics, we hope that skills emerge autonomously from the learning process. 
+Instead of relying on prior knowledge, we can aim to discover skills simply from pure exploration. However, in the absence of extrinsic inductive biases, skill discovery requires intrinsic priors on high-quality skills, e.g diversity and consistency of the skill set <d-cite key="sharma2019dynamics"></d-cite>. By optimizing these intrinsic metrics, we hope that skills emerge autonomously from the learning process. 
 
 Compared to the previous approaches, there is no guarantee of quality of individual skills in the learned set. However, by maximizing diversity, we can hope that the learned skill set contains sufficient high-quality skills that transfer well to downstream tasks. 
 
+## Transferring Skills to Tasks
 
-## Using Skills
-
-Okay, so suppose that we have a collection of high-quality skills. How do we use them? 
+Okay, so suppose that we have a collection of high-quality skills. How do we use them in a task-oriented way? 
 
 ### Hierarchical Learning
 
-A suitable collection of skills (or options) can be used as action primitives for downstream control tasks. For example, a family of options can be treated as a low-level controller. A high-level planner can then use the option space as its action space, selecting and sequencing options to solve specific tasks. 
+A suitable collection of skills can be directly used as a low-level controller. A high-level planner can then use the skill space as its action space, selecting and sequencing options to solve specific tasks. 
 
-Doing this has several benefits. First and foremost, it enables transfer learning. The high-level policy does not need to learn skills from scratch, but can simply make use of them. Exploration in a highly informative, low-dimensional latent space is likely to be much easierr than exploration in a high-dimensional, noisy space. Similar to how pre-training on ImageNet, starting with a high-quality family of options can greatly improve sample efficiency on downstream tasks. 
+Doing this has several benefits. First and foremost, the high-level policy does not need to learn skills, but can simply make use of them in a zero-shot manner. Furthermore, exploration in a highly informative, low-dimensional latent space is likely to be much easier than exploration in a high-dimensional, noisy space, greatly improving sample efficiency on downstream tasks. 
+
+To understand this, consider that simple exploration strategies in the skill space can translate to highly structured and efficient exploration in the action space. 
+<!---(TODO: add easy-to-digest example) -->
 
 ### Teacher-Student Learning
 
