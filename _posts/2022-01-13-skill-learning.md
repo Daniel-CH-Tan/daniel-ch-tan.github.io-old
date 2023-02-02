@@ -68,15 +68,53 @@ As humans, we have learned certain patterns of whole-body actuation as high-leve
 
 Why not do the same for robots? 
 
+### The Cereal-Making Robot
+
+An average ten-year-old could probably walk into the kitchen and make themselves a bowl of cereal unsupervised. Yet the same capability remains out of reach of modern robots. (Or at the least, it has yet to be demonstrated!) Why is that? (Example credit: Chelsea Finn, [podcast episode](https://thegradientpub.substack.com/p/chelsea-finn-on-meta-learning-and#details) hosted by [The Gradient](https://thegradientpub.substack.com/s/podcast)). 
+
+<div class="row mt-3" style="position: relative">
+    <div class="col-sm mt-3 mt-md-0" style="width: 50%">
+        {% include figure.html path="assets/img/skill_learning/cereal.jpg" class="img-fluid rounded z-depth-1" %}
+    </div>
+</div>
+<div class="caption">
+    Making cereal is so easy, even kids can do it!
+</div>
+
+More generally, we would like to develop control frameworks that enable robots to accomplish **complex tasks** in the **real world**. 
+<!--- There are many angles through which this could be tackled, and as yet there is no consensus on what the best one is. For example, even the method of **task specification** admits multiple perspectives: cost functions a la optimization, reward functions a la RL, or even natural language. Some work focuses on imbuing robots with **common-sense understanding** of real-world objects and physics.  -->
+
+### Skills as Building Blocks
+
+One method of enabling complex task-oriented behaviour, is to adopt an incremental approach and try to learn to solve simpler subproblems first, then compose those solutions into a full solution. As programmers, this sounds inherently appealing. Going back to the cereal analogy, we might come up with a list of lower-level skills that need to be learned first, such as **finding** the necessary ingredients, **picking** up the cereal box, **pouring** the milk into a bowl, and **carrying** it out of the kitchen while maintaining good **balance**. 
+
+If we had access to high-quality action primitives that were able to solve each of these subproblems, the overall problem reduces to a simple task of finding the right skills and sequencing them in the right order. Conversely, needing to learn to solve all of these subproblems from scratch makes the overall problem exponentially more difficult. 
+
+The core problem of skill learning is therefore to discover and learn a diverse set of high-quality action primitives that transfer well to downstream tasks. 
+
+### Skills for Dexterity
+
+It has been said that dexterity is the "last open frontier in robotics". 
+
+One reason for this is that learning-based approaches struggle is the difficulty of exploration in high-dimensional control space. For a humanoid morphology, even maintaining balance is already a rather challenging task, let alone learning to move in an agile, safe, and efficient way or exercise fine motor skills in handling everyday objects. 
+
+## Related work
+
 ### Representation Learning
 
-One timeless lesson from deep learning is that, in dealing with high-dimensional spaces, it is often useful to first compress it to a succint low-dimensional latent representation that can be used for downstream tasks. In recent times, there has been considerable interest in applying this technique to deal with high-dimensional observation spaces - for example, in robotic manipulation from camera feeds. Skill learning can be thought of as representation learning applied to action spaces. 
+Skill learning can be thought of as representation learning. However, while most representation learning methods aim to construct informative representations of the observations space, we are instead focusing on the action space. The space of all valid action primitives scales as $$\dim(A^T)$$; yet the space of useful action primitives could be hypothesised to be restricted to a low-dimensional manifold within this combinatorially large space. Reducing the dimension of the action space has obvious benefits for improving interpretability as well as the efficiency of exploration. 
 
 ### Options Theory
 
 One useful mathematical formulation for skill learning is the options framework introduced in <d-cite key="sutton1999options"></d-cite>. For a given Markov Decision Process (MDP), options are auxilliary policies that conditionally execute upon entering certain states and run until their termination condition is met. 
 
-In the original formulation, each option exists as a separate policy. In practice, it has been popular <d-cite key="sharma2019dynamics"></d-cite> <d-cite key="Peng_2021"></d-cite> to implement skill learning using a latent-conditioned policy. Each instantiation of the latent variable corresponds to a single option, and the choice of distribution over the latents induces a family of options. Assuming sufficient regularity of the latent space, the latent-variable representations can be interpolated to sample novel skills. 
+### Latent-Variable Policies
+
+In practice, it has been popular <d-cite key="sharma2019dynamics"></d-cite> <d-cite key="Peng_2021"></d-cite> to implement skill learning using a latent-conditioned policy. Each instantiation of the latent variable corresponds to a single option, and the choice of distribution over the latents induces a family of options. Assuming sufficient regularity of the latent space, the latent-variable representations can be interpolated to sample novel skills. 
+
+### Planning with subgoals
+
+A similar line of reasoning is employed in **subgoal**-conditioned learning and planning; however, while subgoals are akin to static milestones that need to be achieved in order to reach the main goal, skills are akin to the known routes that take us safely and quickly between subgoals. 
 
 ## Learning Skills
 
