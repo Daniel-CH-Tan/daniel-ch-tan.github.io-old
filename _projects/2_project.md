@@ -2,7 +2,7 @@
 layout: page
 title: Quadruped AMP
 description: Adversarial motion priors for flexible quadruped control, implemented in IsaacGym
-img: assets/img/3.jpg
+img: assets/img/quadruped_amp/cover.png
 importance: 2
 category: work
 ---
